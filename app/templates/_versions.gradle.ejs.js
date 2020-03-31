@@ -1,0 +1,4 @@
+ext {
+  //Android
+  minVersionSDK = <%= minSdk %>
+}
