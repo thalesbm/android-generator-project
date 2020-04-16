@@ -1,1 +1,6 @@
+<% if (module == 'n') { %>
 include ':app'
+<% } %>
+<% if (module == 'y') { %>
+include ':app', ':library'
+<% } %>
