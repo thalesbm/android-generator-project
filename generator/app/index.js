@@ -35,14 +35,13 @@ module.exports = class extends Generator {
 				choices: ['NONE', 'MVVM', 'MVP Clean'],
 				store: true,
 				default: 0
+			},
+			{
+				name: 'module',
+				message: 'Has module (y/n):',
+				store: true,
+				default: "n"
 			}
-			// ,
-			// {
-			// 	name: 'module',
-			// 	message: 'Has module (y/n):',
-			// 	store: true,
-			// 	default: "n"
-			// }
 		]
 
 		return this.prompt(prompts).then((responses) => {
@@ -61,12 +60,6 @@ module.exports = class extends Generator {
 
 		this.fs.copyTpl(this.templatePath('_build.gradle.ejs'),
 			this.destinationPath('build.gradle'), {
-				appName: this.responses.name
-			}
-		)
-
-		this.fs.copyTpl(this.templatePath('_settings.gradle.ejs'),
-            this.destinationPath('settings.gradle'), {
 				appName: this.responses.name
 			}
 		)
@@ -114,9 +107,30 @@ module.exports = class extends Generator {
 		this.log("STEP [5 / 5]")
 
 		if (this.responses.module == 'y') {
+			this.fs.copyTpl(this.templatePath('_settings.gradle-module.ejs'),
+	            this.destinationPath('settings.gradle'), {
+					appName: this.responses.name
+				}
+			)
+
+			this.fs.copyTpl(this.templatePath('module/_build.gradle.ejs'),
+				this.destinationPath('library/build.gradle'), {
+					appName: this.responses.name,
+					package: this.responses.applicationId
+				}
+			)
+
+			this.fs.copy(this.templatePath('module/proguard-rules.pro'), this.destinationPath('library/proguard-rules.pro'))
+			this.fs.copy(this.templatePath('module/src/main/res'), this.destinationPath('library/src/main/res'))
+			this.fs.copy(this.templatePath('module/src/main/java'), this.destinationPath('library/src/main/java'))
+			this.fs.copy(this.templatePath('module/src/main/AndroidManifest.xml'), this.destinationPath('library/src/main/AndroidManifest.xml'))
 
 		} else {
-
+			this.fs.copyTpl(this.templatePath('_settings.gradle.ejs'),
+	            this.destinationPath('settings.gradle'), {
+					appName: this.responses.name
+				}
+			)
 		}
 	}
 

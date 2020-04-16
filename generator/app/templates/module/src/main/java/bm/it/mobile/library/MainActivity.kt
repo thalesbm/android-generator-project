@@ -1,8 +1,8 @@
-package bm.it.mobile.app.view
+package bm.it.mobile.library
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import bm.it.mobile.app.R
+import bm.it.mobile.library.R
 
 class MainActivity : AppCompatActivity() {
 

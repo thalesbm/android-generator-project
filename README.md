@@ -24,3 +24,6 @@
 - yo android-app
 
 ------
+
+https://yeoman.io/
+https://ejs.co/
