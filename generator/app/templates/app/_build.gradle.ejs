@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion compileSdkVersionExt
-    buildToolsVersion buildToolsVersionExt
+    compileSdkVersion compileSDKVersion
+    buildToolsVersion buildToolsVersion
     
     defaultConfig {
         applicationId "<%= package %>"
-        minSdkVersion minSdkVersionExt
-        targetSdkVersion targetSdkVersionExt
+        minSdkVersion minSDKVersion
+        targetSdkVersion targetSDKVersion
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
@@ -22,18 +22,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    lintOptions {
-        abortOnError false
-        ignore 'InvalidPackage'
-        ignoreWarnings true
-        htmlReport true
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$versionKotlin"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompactVersion"
 }
-

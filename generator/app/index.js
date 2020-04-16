@@ -6,8 +6,8 @@ var yosay = require('yosay')
 var path = require('path')
 
 module.exports = class extends Generator {
-	constructor(args, opts) {
-		super(args, opts)
+
+	initializing() {
 		this.pkg = require('../package.json')
 		this.responses = {}
 	}
@@ -23,19 +23,25 @@ module.exports = class extends Generator {
 		},
 		{
 			name: 'applicationId',
-			message: 'applicationId:',
+			message: 'Application ID:',
 			store: true,
 			default: "bm.it.mobile.app"
 		},
+		// {
+		// 	name: 'architeture',
+		// 	message: '? architeture:',
+		// 	store: true,
+		// 	default: 1
+		// },
 		{
-			name: 'targetSdk',
+			name: 'targetSDK',
 			message: 'Target SDK:',
 			store: true,
 			default: 28 // Android 9.0 (Pie)
 		},
 		{
-			name: 'minSdk',
-			message: 'min SDK:',
+			name: 'minSDK',
+			message: 'Min SDK:',
 			store: true,
 			default: 19 // Android 4.4 (KitKat)
 		},
@@ -47,7 +53,7 @@ module.exports = class extends Generator {
 		},
 		{
 			name: 'kotlinVersion',
-			message: 'Qual a versão do Kotlin?',
+			message: 'Kotlin version:',
 			store: true,
 			default: 1.3 // 1.3.61
 		}]
@@ -58,21 +64,21 @@ module.exports = class extends Generator {
 	}
 
 	configuring() {
-		this.log("STEP [1 / 10]")
+		this.log("STEP [1 / 3]")
 		this.destinationRoot("android-" + this.responses.name)
 		this.config.set('appPackage', this.responses.name)
 	}
 
 	writing() {
-		this.log("STEP [2 / 10]")
+		this.log("STEP [2 / 3]")
 
 		// copy infos
 		this.fs.copyTpl(this.templatePath('_versions.gradle.ejs'),
             this.destinationPath('versions.gradle'), {
-				versionGradle: this.responses.gradleVersion + ".2",
-				versionKotlin: this.responses.kotlinVersion+ ".61",
-				targetSdk: this.responses.targetSdk,
-				minSdk: this.responses.minSdk
+				gradleVersion: this.responses.gradleVersion + ".2",
+				kotlinVersion: this.responses.kotlinVersion + ".61",
+				targetSDK: this.responses.targetSDK,
+				minSDK: this.responses.minSDK
             }
 		)
 
@@ -101,13 +107,13 @@ module.exports = class extends Generator {
             }
 		)
 
-		this.fs.copyTpl(this.templatePath('app/src/main/rec/values/_strings.xml.ejs'),
-            this.destinationPath('app/src/main/rec/values/strings.xml'), {
+		this.fs.copyTpl(this.templatePath('app/src/main/res/values/_strings.xml.ejs'),
+            this.destinationPath('app/src/main/res/values/strings.xml'), {
 				name: this.responses.name
             }
 		)
 
-		this.log("STEP [3 / 10]")
+		this.log("STEP [3 / 3]")
 		
 		// copy files
 		this.fs.copy(this.templatePath('gradle.properties'), this.destinationPath('gradle.properties'))
@@ -118,7 +124,9 @@ module.exports = class extends Generator {
 		this.fs.copy(this.templatePath('local.properties'), this.destinationPath('local.properties'))
 		this.fs.copy(this.templatePath('app/proguard-rules.pro'), this.destinationPath('app/proguard-rules.pro'))
 		this.fs.copy(this.templatePath('app/src/main'), this.destinationPath('app/src/main'))
+	}
 
+	end() {
 		this.log("FINISHED")
 	}
 }
