@@ -27,12 +27,14 @@ module.exports = class extends Generator {
 			store: true,
 			default: "bm.it.mobile.app"
 		},
-		// {
-		// 	name: 'architeture',
-		// 	message: '? architeture:',
-		// 	store: true,
-		// 	default: 1
-		// },
+		{
+			name: 'architeture',
+			message: 'Architeture:',
+			type: 'list',
+			choices: ['NONE', 'MVVM', 'MVP Clean'],
+			store: true,
+			default: 0
+		},
 		{
 			name: 'targetSDK',
 			message: 'Target SDK:',
@@ -64,15 +66,14 @@ module.exports = class extends Generator {
 	}
 
 	configuring() {
-		this.log("STEP [1 / 3]")
+		this.log("STEP [1 / 4]")
 		this.destinationRoot("android-" + this.responses.name)
 		this.config.set('appPackage', this.responses.name)
 	}
 
 	writing() {
-		this.log("STEP [2 / 3]")
+		this.log("STEP [2 / 4]")
 
-		// copy infos
 		this.fs.copyTpl(this.templatePath('_versions.gradle.ejs'),
             this.destinationPath('versions.gradle'), {
 				gradleVersion: this.responses.gradleVersion + ".2",
@@ -107,15 +108,8 @@ module.exports = class extends Generator {
             }
 		)
 
-		this.fs.copyTpl(this.templatePath('app/src/main/res/values/_strings.xml.ejs'),
-            this.destinationPath('app/src/main/res/values/strings.xml'), {
-				name: this.responses.name
-            }
-		)
+		this.log("STEP [3 / 4]")
 
-		this.log("STEP [3 / 3]")
-		
-		// copy files
 		this.fs.copy(this.templatePath('gradle.properties'), this.destinationPath('gradle.properties'))
 		this.fs.copy(this.templatePath('gradlew'), this.destinationPath('gradlew'))
 		this.fs.copy(this.templatePath('gradlew.bat'), this.destinationPath('gradlew.bat'))
@@ -123,7 +117,22 @@ module.exports = class extends Generator {
 		this.fs.copy(this.templatePath('gradle'), this.destinationPath('gradle'))
 		this.fs.copy(this.templatePath('local.properties'), this.destinationPath('local.properties'))
 		this.fs.copy(this.templatePath('app/proguard-rules.pro'), this.destinationPath('app/proguard-rules.pro'))
-		this.fs.copy(this.templatePath('app/src/main'), this.destinationPath('app/src/main'))
+		this.fs.copy(this.templatePath('app/src/main/res'), this.destinationPath('app/src/main/res'))
+
+		this.log("STEP [4 / 4]")
+
+		if (this.responses.architeture == 'MVVM') {
+			this.fs.copy(this.templatePath('app/src/main/java-mvvm'), this.destinationPath('app/src/main/java'))
+			this.fs.copy(this.templatePath('app/src/main/AndroidManifest.xml'), this.destinationPath('app/src/main/AndroidManifest.xml'))
+
+		} else if (this.responses.architeture == 'MVP Clean') {
+			this.fs.copy(this.templatePath('app/src/main/java-mvp'), this.destinationPath('app/src/main/java'))
+			this.fs.copy(this.templatePath('app/src/main/AndroidManifest.xml'), this.destinationPath('app/src/main/AndroidManifest.xml'))
+
+		} else {
+			this.fs.copy(this.templatePath('app/src/main/java-none'), this.destinationPath('app/src/main/java'))
+			this.fs.copy(this.templatePath('app/src/main/AndroidManifest-none.xml'), this.destinationPath('app/src/main/AndroidManifest.xml'))
+		}
 	}
 
 	end() {
