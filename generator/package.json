@@ -1,0 +1,21 @@
+{
+  "name": "generator-android-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^4.2.0",
+    "yosay": "^2.0.2"
+  },
+  "files": [
+    "app"
+  ],
+  "author": "Thales Marega",
+  "license": "ISC"
+}

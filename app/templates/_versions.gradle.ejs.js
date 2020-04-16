@@ -1,4 +1,0 @@
-ext {
-  //Android
-  minVersionSDK = <%= minSdk %>
-}
