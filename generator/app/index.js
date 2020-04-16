@@ -1,9 +1,6 @@
-'use strict';
+'use strict'
 
 var Generator = require('yeoman-generator')
-var chalk = require('chalk')
-var yosay = require('yosay')
-var path = require('path')
 
 module.exports = class extends Generator {
 
