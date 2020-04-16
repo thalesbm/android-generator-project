@@ -26,20 +26,11 @@
 
 #### About the questions?
 
-1. Project name
-- What's your project name? for example: weather-app or company-app
-
-2. Application ID
-
-
-3. Target SDK
-
-
-4. Min SDK
-
-
-5. Gradle version
-
-
-6. Kotlin version
-
+Questions | Description | Possible Answers | Default Answer
+------------ | ------------- | ------------- | -------------
+Project name |  | weather-app or company-app | project-name
+Application ID |  | | bm.it.mobile.app
+Target SDK |  | | 28
+Min SDK |  | | 19
+Gradle version |  | | 3.6.2
+Kotlin version |  | | 1.3.61
