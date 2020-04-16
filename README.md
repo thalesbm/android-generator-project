@@ -5,11 +5,12 @@
 ------
 
 #### Status
+
 - [x] Tutorial
 - [x] Simple App
 - [x] Architeture MVVM
 - [x] Architeture MVP Clean
-- [ ] Project with module
+- [x] Project with module
 
 ------
 

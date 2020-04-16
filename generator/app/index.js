@@ -15,50 +15,35 @@ module.exports = class extends Generator {
 	prompting() {
 		this.log('Welcome to Android Project Generator')
 
-		var prompts = [{
-			name: 'name',
-			message: 'Project name:',
-			store: true,
-			default: "project-name"
-		},
-		{
-			name: 'applicationId',
-			message: 'Application ID:',
-			store: true,
-			default: "bm.it.mobile.app"
-		},
-		{
-			name: 'architeture',
-			message: 'Architeture:',
-			type: 'list',
-			choices: ['NONE', 'MVVM', 'MVP Clean'],
-			store: true,
-			default: 0
-		},
-		{
-			name: 'targetSDK',
-			message: 'Target SDK:',
-			store: true,
-			default: 28 // Android 9.0 (Pie)
-		},
-		{
-			name: 'minSDK',
-			message: 'Min SDK:',
-			store: true,
-			default: 19 // Android 4.4 (KitKat)
-		},
-		{
-			name: 'gradleVersion',
-			message: 'Gradle version:',
-			store: true,
-			default: 3.6 // 3.6.2
-		},
-		{
-			name: 'kotlinVersion',
-			message: 'Kotlin version:',
-			store: true,
-			default: 1.3 // 1.3.61
-		}]
+		var prompts = [
+			{
+				name: 'name',
+				message: 'Project name:',
+				store: true,
+				default: "project-name"
+			},
+			{
+				name: 'applicationId',
+				message: 'Application ID:',
+				store: true,
+				default: "bm.it.mobile.app"
+			},
+			{
+				name: 'architeture',
+				message: 'Architeture:',
+				type: 'list',
+				choices: ['NONE', 'MVVM', 'MVP Clean'],
+				store: true,
+				default: 0
+			}
+			// ,
+			// {
+			// 	name: 'module',
+			// 	message: 'Has module (y/n):',
+			// 	store: true,
+			// 	default: "n"
+			// }
+		]
 
 		return this.prompt(prompts).then((responses) => {
 			this.responses = responses
@@ -66,22 +51,13 @@ module.exports = class extends Generator {
 	}
 
 	configuring() {
-		this.log("STEP [1 / 4]")
+		this.log("STEP [1 / 5]")
 		this.destinationRoot("android-" + this.responses.name)
 		this.config.set('appPackage', this.responses.name)
 	}
 
 	writing() {
-		this.log("STEP [2 / 4]")
-
-		this.fs.copyTpl(this.templatePath('_versions.gradle.ejs'),
-            this.destinationPath('versions.gradle'), {
-				gradleVersion: this.responses.gradleVersion + ".2",
-				kotlinVersion: this.responses.kotlinVersion + ".61",
-				targetSDK: this.responses.targetSDK,
-				minSDK: this.responses.minSDK
-            }
-		)
+		this.log("STEP [2 / 5]")
 
 		this.fs.copyTpl(this.templatePath('_build.gradle.ejs'),
 			this.destinationPath('build.gradle'), {
@@ -108,8 +84,9 @@ module.exports = class extends Generator {
             }
 		)
 
-		this.log("STEP [3 / 4]")
+		this.log("STEP [3 / 5]")
 
+		this.fs.copy(this.templatePath('versions.gradle'), this.destinationPath('versions.gradle'))
 		this.fs.copy(this.templatePath('gradle.properties'), this.destinationPath('gradle.properties'))
 		this.fs.copy(this.templatePath('gradlew'), this.destinationPath('gradlew'))
 		this.fs.copy(this.templatePath('gradlew.bat'), this.destinationPath('gradlew.bat'))
@@ -119,7 +96,7 @@ module.exports = class extends Generator {
 		this.fs.copy(this.templatePath('app/proguard-rules.pro'), this.destinationPath('app/proguard-rules.pro'))
 		this.fs.copy(this.templatePath('app/src/main/res'), this.destinationPath('app/src/main/res'))
 
-		this.log("STEP [4 / 4]")
+		this.log("STEP [4 / 5]")
 
 		if (this.responses.architeture == 'MVVM') {
 			this.fs.copy(this.templatePath('app/src/main/java-mvvm'), this.destinationPath('app/src/main/java'))
@@ -132,6 +109,14 @@ module.exports = class extends Generator {
 		} else {
 			this.fs.copy(this.templatePath('app/src/main/java-none'), this.destinationPath('app/src/main/java'))
 			this.fs.copy(this.templatePath('app/src/main/AndroidManifest-none.xml'), this.destinationPath('app/src/main/AndroidManifest.xml'))
+		}
+
+		this.log("STEP [5 / 5]")
+
+		if (this.responses.module == 'y') {
+
+		} else {
+
 		}
 	}
 
