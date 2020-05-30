@@ -1,0 +1,10 @@
+{
+  "generator-android-app": {
+    "promptValues": {
+      "name": "android-extensions",
+      "applicationId": "bm.it.mobile.extensions",
+      "architeture": "NONE",
+      "module": "y"
+    }
+  }
+}
