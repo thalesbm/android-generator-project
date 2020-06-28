@@ -89,7 +89,7 @@ module.exports = class extends Generator {
 		this.fs.copy(this.templatePath('gradlew.bat'), this.destinationPath('gradlew.bat'))
 		this.fs.copy(this.templatePath('.gitignore'), this.destinationPath('.gitignore'))
 		this.fs.copy(this.templatePath('gradle'), this.destinationPath('gradle'))
-		this.fs.copy(this.templatePath('local.properties'), this.destinationPath('local.properties'))
+		// this.fs.copy(this.templatePath('local.properties'), this.destinationPath('local.properties'))
 		this.fs.copy(this.templatePath('app/proguard-rules.pro'), this.destinationPath('app/proguard-rules.pro'))
 		this.fs.copy(this.templatePath('app/src/main/res'), this.destinationPath('app/src/main/res'))
 
